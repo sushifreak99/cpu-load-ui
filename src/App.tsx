@@ -12,6 +12,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import { INTERVAL_READ_MS } from './utils/constants';
 
 ChartJS.register(
   CategoryScale,
@@ -23,13 +24,11 @@ ChartJS.register(
   Legend
 );
 
-let x = 0;
 function App() {
   const [cpuLoad, push] = useCpuTimeSeries(DEFAULT_BUFFER_SIZE);
   usePolling(() => {
-    push({ time: x, value: 1 });
-    x += 1;
-  }, 1000)
+    push({ time: new Date().getTime(), value: 0.5 + 0.02*Math.random() });
+  }, INTERVAL_READ_MS)
 
 
   return (
